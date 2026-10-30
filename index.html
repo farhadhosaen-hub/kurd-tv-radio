@@ -13,12 +13,34 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js').catch(() => {});
+          navigator.serviceWorker.register('./sw.js?v=2.0').then((reg) => {
+            // Check for updates immediately
+            reg.update();
+            reg.addEventListener('updatefound', () => {
+              const newWorker = reg.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('New update available, auto-reloading...');
+                    window.location.reload();
+                  }
+                });
+              }
+            });
+          }).catch(() => {});
+        });
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
         });
       }
     </script>
-    <script type="module" crossorigin src="./assets/index-7T4sLo3S.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BK37BCEE.css">
+    <script type="module" crossorigin src="./assets/index-C7ucf01M.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BqiIwIYX.css">
   </head>
   <body class="bg-[#030712] text-white selection:bg-cyan-500 selection:text-black overflow-hidden m-0 p-0 w-screen h-screen">
     <div id="root" class="w-full h-full"></div>
