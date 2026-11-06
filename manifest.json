@@ -1,20 +1,19 @@
 {
-  "name": "تەلەفزیۆن و ڕادیۆی کوردی",
-  "short_name": "Kurd TV & Radio",
-  "description": "پەخشی ڕاستەوخۆی هەموو کەناڵە ئاسمانی و ناوخۆیی و ڕادیۆ کوردییەکان بەبێ ئینتەرنێتی زۆر",
-  "start_url": "./",
-  "scope": "./",
+  "name": "کورد تیڤی و ڕادیۆ (Kurd TV & Radio)",
+  "short_name": "Kurd TV",
+  "description": "پڕۆژەی تەلەفزیۆن و ڕادیۆی کوردی و ئیسلامی بۆ ویندۆز و مۆبایل",
+  "start_url": "./index.html",
   "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#0f172a",
   "orientation": "any",
-  "background_color": "#030712",
-  "theme_color": "#030712",
-  "lang": "ku",
+  "lang": "ckb",
   "dir": "rtl",
   "icons": [
     {
-      "src": "./tv-radio.svg",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
