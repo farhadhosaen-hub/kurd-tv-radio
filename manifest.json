@@ -1,7 +1,7 @@
 {
-  "name": "کورد تیڤی و ڕادیۆ (Kurd TV & Radio)",
-  "short_name": "Kurd TV",
-  "description": "پڕۆژەی تەلەفزیۆن و ڕادیۆی کوردی و ئیسلامی بۆ ویندۆز و مۆبایل",
+  "name": "FARHAD MIDYA",
+  "short_name": "FARHAD MIDYA",
+  "description": "ئەپی FARHAD MIDYA بۆ پەخشی ڕاستەوخۆی تەلەفزیۆن و ڕادیۆ",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#090d16",
