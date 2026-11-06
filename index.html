@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>کورد تیڤی و ڕادیۆ - Kurd TV & Radio</title>
+  <title>FARHAD MIDYA - کورد تیڤی و ڕادیۆ</title>
   
   <!-- PWA Manifest & Mobile Meta -->
   <link rel="manifest" href="manifest.json">
@@ -11,7 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Kurd TV">
+  <meta name="apple-mobile-web-app-title" content="FARHAD MIDYA">
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" type="image/png" href="icon.png">
 
@@ -1642,10 +1642,10 @@
   <header>
     <div class="top-nav">
       <div class="logo-area" onclick="location.reload()">
-        <div class="logo-icon">📺</div>
+        <div class="logo-icon">📻</div>
         <div class="logo-text">
-          <h1>کورد تیڤی و ڕادیۆ</h1>
-          <p>Kurd TV & Radio - بۆ کۆمپیوتەر و مۆبایل</p>
+          <h1>FARHAD MIDYA</h1>
+          <p>تەلەفزیۆن و ڕادیۆ - بۆ مۆبایل و کۆمپیوتەر</p>
         </div>
       </div>
 
@@ -2253,8 +2253,8 @@
             const file = new File([blob], fileName, { type: 'text/html' });
             if (navigator.canShare({ files: [file] })) {
               await navigator.share({
-                title: 'کورد تیڤی و ڕادیۆ (Kurd TV & Radio)',
-                text: 'فایلی تەواوی ئەپی کورد تیڤی و ڕادیۆ بۆ خەزنکردن لەسەر مۆبایل:',
+                title: 'FARHAD MIDYA (تەلەفزیۆن و ڕادیۆ)',
+                text: 'فایلی تەواوی ئەپی FARHAD MIDYA بۆ خەزنکردن لەسەر مۆبایل:',
                 files: [file]
               });
               showToast('✅ فایلی ئەپەکە ئامادەکرا و خەزنکرا لەسەر مۆبایل!');
@@ -2315,8 +2315,8 @@
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           await navigator.share({
             files: [file],
-            title: 'کورد تیڤی و ڕادیۆ (Kurd TV & Radio)',
-            text: 'ئەپی کورد تیڤی و ڕادیۆ بۆ هەموو کەناڵە تەلەفزیۆنی و ڕادیۆییە کوردییەکان'
+            title: 'FARHAD MIDYA (تەلەفزیۆن و ڕادیۆ)',
+            text: 'ئەپی FARHAD MIDYA بۆ هەموو کەناڵە تەلەفزیۆنی و ڕادیۆییەکان'
           });
           closeShareModal();
           return;
