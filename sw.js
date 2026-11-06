@@ -1,49 +1,38 @@
-const CACHE_NAME = 'kurd-tv-radio-v2.0-live';
+// Kurd TV & Radio - Service Worker
+const CACHE_NAME = 'kurd-tv-radio-v2.5';
+const ASSETS = [
+  './index.html',
+  './manifest.json',
+  './icon.png'
+];
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS).catch(() => {});
+    })
+  );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            console.log('[SW] Clearing old cache:', key);
-            return caches.delete(key);
-          }
+          if (key !== CACHE_NAME) return caches.delete(key);
         })
       );
-    }).then(() => clients.claim())
+    })
   );
+  self.clients.claim();
 });
 
-self.addEventListener('fetch', (e) => {
-  const url = e.request.url;
-  // Always fetch live video/audio streams directly from network
-  if (
-    url.includes('.m3u8') ||
-    url.includes('.ts') ||
-    url.includes('.fmp4') ||
-    url.includes('.mp3') ||
-    url.includes('.aac') ||
-    url.includes('api.alquran.cloud') ||
-    url.includes('version.json')
-  ) {
-    return;
+self.addEventListener('fetch', (event) => {
+  // Let network take priority, fall back to cache for main shell
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('./index.html'))
+    );
   }
-
-  // Network First for HTML & Assets to ensure instant updates, fallback to cache
-  e.respondWith(
-    fetch(e.request)
-      .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && e.request.method === 'GET') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, responseToCache));
-        }
-        return networkResponse;
-      })
-      .catch(() => caches.match(e.request))
-  );
 });
