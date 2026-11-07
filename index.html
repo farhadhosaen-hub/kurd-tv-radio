@@ -323,10 +323,14 @@
       position: relative;
       overflow: hidden;
     }
-    .channel-card:hover {
-      transform: translateY(-4px);
+    .channel-card:hover,
+    .channel-card:focus,
+    .channel-card:focus-visible {
+      transform: translateY(-5px) scale(1.03);
       border-color: #38bdf8;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      outline: 3px solid #38bdf8;
+      outline-offset: 3px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.5);
       background: #18243c;
     }
     .channel-badge {
@@ -2635,8 +2639,8 @@ https://github.com/farhadhosaen-hub/kurd-tv-radio/releases/download/v2.0.0/Kurd_
         return;
       }
 
-      grid.innerHTML = list.map(c => `
-        <div class="channel-card" onclick="openPlayer(${c.id}, true)">
+      grid.innerHTML = list.map((c, idx) => `
+        <div class="channel-card" tabindex="0" data-channel-id="${c.id}" data-grid-idx="${idx}" onclick="openPlayer(${c.id}, true)" onkeydown="if(event.key==='Enter'||event.keyCode===13){event.preventDefault();openPlayer(${c.id}, true);}">
           <div class="channel-badge ${c.type === 'radio' ? 'radio-badge' : ''}">
             ${c.type === 'tv' ? 'TV HD' : 'RADIO'}
           </div>
@@ -3196,28 +3200,116 @@ https://github.com/farhadhosaen-hub/kurd-tv-radio/releases/download/v2.0.0/Kurd_
 
     function setupKeyboardControls() {
       window.addEventListener('keydown', (e) => {
-        if (!document.getElementById('playerModal').classList.contains('active')) return;
-        if (e.key === 'ArrowUp') { e.preventDefault(); prevChannel(); }
-        else if (e.key === 'ArrowDown') { e.preventDefault(); nextChannel(); }
-        else if (e.key === 'ArrowRight' || e.key === '+') { e.preventDefault(); volumeStep(0.1); }
-        else if (e.key === 'ArrowLeft' || e.key === '-') { e.preventDefault(); volumeStep(-0.1); }
-        else if (e.key === 'f' || e.key === 'F' || (e.key === 'Enter' && !e.target.matches('input, select, textarea'))) {
-          e.preventDefault();
-          toggleFullScreen();
-        }
-        else if (e.key === 'w' || e.key === 'W') {
-          e.preventDefault();
-          cycleFitMode();
-        }
-        else if (e.key === 'm' || e.key === 'M') { currentVolume = currentVolume > 0 ? 0 : 1; applyVolume(); }
-        else if (e.key === 'Escape') {
-          if (isFullscreenActive()) {
-            // browser exit fullscreen
-          } else {
+        const modal = document.getElementById('playerModal');
+        const isModalActive = modal && modal.classList.contains('active');
+        const key = e.key;
+        const code = e.keyCode || e.which;
+
+        // دوگمەی گەڕانەوە (Smart TV Return / Back / Escape / Backspace)
+        // کۆدە باوەکانی تەلەفزیۆن: VIDAA (10182), Tizen (10009), WebOS (461), Escape (27), Backspace (8)
+        if (code === 10009 || code === 461 || code === 10182 || key === 'Escape' || (key === 'Backspace' && !e.target.matches('input, textarea'))) {
+          if (isModalActive) {
+            e.preventDefault();
             closePlayer();
+            return;
           }
         }
-        resetUiHideTimer();
+
+        // دوگمە ڕەنگاوڕەنگەکانی کۆنتڕۆڵی تەلەفزیۆن (TV Remote Color Keys)
+        // سوور (Red=403): گۆڕین بۆ تەلەفزیۆن
+        if (code === 403 || key === 'ColorF0Red') {
+          e.preventDefault();
+          switchTab('tv');
+          showHud('📺 بەشی تەلەفزیۆن (دوگمەی سووری کۆنتڕۆڵ)');
+          return;
+        }
+        // سەوز (Green=404): گۆڕین بۆ ڕادیۆ
+        if (code === 404 || key === 'ColorF1Green') {
+          e.preventDefault();
+          switchTab('radio');
+          showHud('📻 بەشی ڕادیۆ (دوگمەی سەوزی کۆنتڕۆڵ)');
+          return;
+        }
+        // زەرد (Yellow=405): گۆڕینی قەبارەی شاشە (Fit Mode)
+        if (code === 405 || key === 'ColorF2Yellow') {
+          if (isModalActive) {
+            e.preventDefault();
+            cycleFitMode();
+          }
+          return;
+        }
+        // شین (Blue=406): پڕکردنی شاشە (Fullscreen)
+        if (code === 406 || key === 'ColorF3Blue') {
+          e.preventDefault();
+          toggleFullScreen();
+          return;
+        }
+
+        if (isModalActive) {
+          // کۆنتڕۆڵ لە کاتی پەخشکردندا
+          if (key === 'ArrowUp' || code === 427 /* ChannelUp */) {
+            e.preventDefault();
+            prevChannel();
+          } else if (key === 'ArrowDown' || code === 428 /* ChannelDown */) {
+            e.preventDefault();
+            nextChannel();
+          } else if (key === 'ArrowRight' || key === '+') {
+            e.preventDefault();
+            volumeStep(0.1);
+          } else if (key === 'ArrowLeft' || key === '-') {
+            e.preventDefault();
+            volumeStep(-0.1);
+          } else if (key === 'f' || key === 'F') {
+            e.preventDefault();
+            toggleFullScreen();
+          } else if (key === 'w' || key === 'W') {
+            e.preventDefault();
+            cycleFitMode();
+          } else if (key === 'm' || key === 'M') {
+            currentVolume = currentVolume > 0 ? 0 : 1;
+            applyVolume();
+          } else if (key === ' ' || code === 179 || code === 415 /* MediaPlayPause */) {
+            e.preventDefault();
+            togglePlayPause();
+          }
+          resetUiHideTimer();
+        } else {
+          // کۆنتڕۆڵ لەسەر شاشەی سەرەکی و لیستی کەناڵەکان بە D-Pad
+          const cards = Array.from(document.querySelectorAll('.channel-card'));
+          if (cards.length === 0) return;
+
+          let focusedIndex = cards.findIndex(c => c === document.activeElement);
+
+          if (key === 'ArrowRight' || key === 'ArrowLeft' || key === 'ArrowDown' || key === 'ArrowUp') {
+            e.preventDefault();
+            if (focusedIndex === -1) {
+              cards[0].focus();
+              return;
+            }
+
+            const cols = window.innerWidth >= 1200 ? 5 : (window.innerWidth >= 900 ? 4 : (window.innerWidth >= 600 ? 3 : 2));
+            let nextIndex = focusedIndex;
+
+            if (key === 'ArrowRight') {
+              nextIndex = Math.max(0, focusedIndex - 1);
+            } else if (key === 'ArrowLeft') {
+              nextIndex = Math.min(cards.length - 1, focusedIndex + 1);
+            } else if (key === 'ArrowDown') {
+              nextIndex = Math.min(cards.length - 1, focusedIndex + cols);
+            } else if (key === 'ArrowUp') {
+              nextIndex = Math.max(0, focusedIndex - cols);
+            }
+
+            if (cards[nextIndex]) {
+              cards[nextIndex].focus();
+              cards[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          } else if (key === 'Enter' || code === 13) {
+            if (focusedIndex !== -1 && cards[focusedIndex]) {
+              cards[focusedIndex].click();
+            }
+          }
+        }
       });
     }
 
