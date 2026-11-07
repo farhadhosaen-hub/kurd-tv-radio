@@ -1895,10 +1895,10 @@
       <div style="font-size: 16px; font-weight: bold;" id="errorMessageText">پەخشەکە لەکارکەوتووە یان ئینتەرنێت لاوازە</div>
       <button class="retry-btn" onclick="retryCurrentStream()">دووبارە هەوڵبدەرەوە 🔄</button>
       <div id="spedaErrorFallback" style="display: none; margin-top: 10px; gap: 8px; flex-wrap: wrap; justify-content: center;">
-        <button class="speda-btn" onclick="switchSpedaSource('hls')">📡 پەخشی ئاسمانی HD</button>
-        <button class="speda-btn" onclick="switchSpedaSource('yt')">📺 پەخشی یوتوب (سێرڤەری ٢)</button>
+        <button class="speda-btn" onclick="switchChannelSource('continuous')">📺 پەخشی ٢٤/٧ (سێرڤەری ١)</button>
+        <button class="speda-btn" onclick="switchChannelSource('live')">📡 پەخشی ڕاستەوخۆ</button>
         <button class="speda-btn" onclick="openPlayer(51)">📻 ڕادیۆی سپێدە FM</button>
-        <a class="speda-btn" href="https://www.youtube.com/@spedatv9659/live" target="_blank" rel="noopener">📺 لە یوتوب بیکەرەوە</a>
+        <a class="speda-btn" href="https://www.youtube.com/@spedatv9659" target="_blank" rel="noopener">📺 لە یوتوب بیکەرەوە</a>
       </div>
     </div>
 
@@ -2034,7 +2034,7 @@
     // ========================================================
     const allChannels = [
       // تەلەفزیۆن (TV)
-      { id: 1, name: "Speda TV (کەناڵی سپێدەی ئاسمانی)", type: "tv", cat: "kurdish", logo: "https://i.imgur.com/rK0y02d.png", desc: "کەناڵی ئاسمانی سپێدە (پەخشی سەرەکی)", stream: "https://speda1.site/upload/images/spedahd.m3u8", fallbackStream: "https://radio.host247.net/spedafm", isSpeda: true },
+      { id: 1, name: "Speda TV (کەناڵی سپێدەی ئاسمانی)", type: "tv", cat: "kurdish", logo: "https://i.imgur.com/rK0y02d.png", desc: "کەناڵی ئاسمانی سپێدە (پەخشی بەردەوامی 24/7)", stream: "https://www.youtube-nocookie.com/embed/videoseries?list=UUN5YigOo-FQCtXgU73wnfUQ&autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCN5YigOo-FQCtXgU73wnfUQ&autoplay=1", isIframe: true, isSpeda: true },
       { id: 2, name: "کەناڵی ناوخۆیی میحراب (Mihrab TV 720p)", type: "tv", cat: "islamic", logo: "https://via.placeholder.com/150/1e293b/38bdf8?text=Mihrab", desc: "پەخشی ڕاستەوخۆی تەلەفزیۆنی میحراب", stream: "http://bblserver.ddns.net:1935/live/mihrabfm/playlist.m3u8" },
       { id: 3, name: "کەناڵی ئاسمانی بانگەواز (Bangawaz TV 1080p)", type: "tv", cat: "islamic", logo: "https://via.placeholder.com/150/1e293b/38bdf8?text=Bangawaz", desc: "بانگەواز بۆ قورئان و سوننەت", stream: "http://bangawaztv.ddns.net:40/live/bangawaztv/playlist.m3u8" },
       { id: 4, name: "کەناڵی KNN (KNN TV)", type: "tv", cat: "kurdish", logo: "https://www.knnc.net/wene/logo.png", desc: "تۆڕی هەواڵی کەی ئێن ئێن (پەخشی ڕاستەوخۆ 24/7)", stream: "https://www.youtube-nocookie.com/embed/bPOZoiu3vaE?autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCjfXlHa9erZeaxsOvFk1yeg&autoplay=1", isIframe: true },
@@ -2054,8 +2054,8 @@
       { id: 18, name: "قناة الحدث", type: "tv", cat: "arabic", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Al_Hadath_Logo.svg/512px-Al_Hadath_Logo.svg.png", desc: "قناة الحدث الإخبارية", stream: "https://live.alarabiya.net/alarabiapublish/alhadath.smil/playlist.m3u8" },
       { id: 19, name: "Afarin Kids (ئافەرین)", type: "tv", cat: "kids", logo: "https://i.postimg.cc/4xRkBD4x/Afarin-Baxcha-200.png", desc: "کەناڵی پەروەردەیی ئافەرین بۆ منداڵان", stream: "https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8" },
       { id: 20, name: "BBC News Arabic TV (تەلەفزیۆنی بی بی سی)", type: "tv", cat: "arabic", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/BBC.svg/512px-BBC.svg.png", desc: "کەناڵی تەلەفزیۆنی هەواڵی بی بی سی عەرەبی (24/7 Live)", stream: "https://www.youtube-nocookie.com/embed/O1pGmVtj2Y8?autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCelk6aHijZq-GJBBB9YpReA&autoplay=1", isIframe: true },
-      { id: 21, name: "کەناڵی سروشت (Srusht HD)", type: "tv", cat: "kurdish", logo: "https://yt3.googleusercontent.com/ytc/AIdro_l4DU4Ulgqv1PGaDcC1Fi2YD6spYVlwYkovIALuPXw_vA=s900-c-k-c0x00ffffff-no-rj", desc: "کەناڵی ئاسمانی و ناوخۆیی سروشت HD - پەخشی ڕاستەوخۆ", stream: "https://www.youtube-nocookie.com/embed/fwVa2LsivwM?autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCQ7Dttv29zH8frZOsAJ0DkQ&autoplay=1", isIframe: true },
-      { id: 22, name: "کەناڵی سپێدە دراما (Speda Drama)", type: "tv", cat: "kurdish", logo: "https://yt3.googleusercontent.com/ytc/AIdro_nOr9vNcIwOqcvipFZH-fH_wjIZtC9pv_CWjS5mPQG83Ck=s900-c-k-c0x00ffffff-no-rj", desc: "کەناڵی سپێدە دراما - زنجیرە و فیلمی دۆبلاژکراوی کوردی", stream: "https://www.youtube-nocookie.com/embed/yhCEDedblM4?autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCLF-pDLj3AnFFm83rqcLcsA&autoplay=1", isIframe: true },
+      { id: 21, name: "کەناڵی سروشت (Srusht HD)", type: "tv", cat: "kurdish", logo: "https://yt3.googleusercontent.com/ytc/AIdro_l4DU4Ulgqv1PGaDcC1Fi2YD6spYVlwYkovIALuPXw_vA=s900-c-k-c0x00ffffff-no-rj", desc: "کەناڵی ئاسمانی و ناوخۆیی سروشت HD - پەخشی بەردەوامی 24/7", stream: "https://www.youtube-nocookie.com/embed/videoseries?list=UUQ7Dttv29zH8frZOsAJ0DkQ&autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/live_stream?channel=UCQ7Dttv29zH8frZOsAJ0DkQ&autoplay=1", isIframe: true },
+      { id: 22, name: "کەناڵی سپێدە دراما (Speda Drama)", type: "tv", cat: "kurdish", logo: "https://yt3.googleusercontent.com/ytc/AIdro_nOr9vNcIwOqcvipFZH-fH_wjIZtC9pv_CWjS5mPQG83Ck=s900-c-k-c0x00ffffff-no-rj", desc: "کەناڵی سپێدە دراما - زنجیرە و فیلمی دۆبلاژکراوی کوردی (24/7)", stream: "https://www.youtube-nocookie.com/embed/videoseries?list=UULF-pDLj3AnFFm83rqcLcsA&autoplay=1", fallbackStream: "https://www.youtube-nocookie.com/embed/videoseries?list=PLDW_8XiH-U8mtJCYr7GYoa9Q6DuIzCJWT&autoplay=1", isIframe: true },
       { id: 23, name: "کەناڵی ئاسمانی ئاڤا (AVA TV 1080p)", type: "tv", cat: "kurdish", logo: "https://ava.news/ava-logo.svg", desc: "تۆڕی میدیایی ئاڤا - کەناڵی فەرمی ئاسمانی ئاڤا تیڤی", stream: "https://hlspackager.akamaized.net/live/DB/AVA_TV/HLS/AVA_TV.m3u8", fallbackStream: "https://ava002.xyz/upload/images/1080.m3u8" },
 
       // ڕادیۆ (Radio)
@@ -2649,31 +2649,77 @@ https://github.com/farhadhosaen-hub/kurd-tv-radio/releases/download/v2.0.0/Kurd_
       `).join('');
     }
 
-    function switchSpedaSource(sourceType) {
-      const video = document.getElementById('videoElement');
+    function switchChannelSource(action) {
       const iframe = document.getElementById('iframeElement');
+      const video = document.getElementById('videoElement');
       const modal = document.getElementById('playerModal');
-      if (sourceType === 'hls') {
-        if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
-        if (modal) modal.classList.remove('iframe-active');
-        if (video) { video.style.display = 'block'; }
-        showLoader();
-        playHlsStream(video, 'https://speda1.site/upload/images/spedahd.m3u8');
-        showHud('📡 پەخشی ئاسمانی HD سپێدە');
-      } else if (sourceType === 'radio' || sourceType === 'fm') {
-        openPlayer(51);
-        showHud('📻 پەخشی ڕادیۆی سپێدە FM (24/7 دەنگی ڕاستەوخۆ)');
-      } else if (sourceType === 'yt') {
+      if (!iframe || !currentChannel) return;
+
+      if (currentChannel.id === 1) { // Speda TV
+        if (action === 'continuous' || action === 'yt') {
+          if (hls) { hls.destroy(); hls = null; }
+          if (video) { video.pause(); video.style.display = 'none'; }
+          if (modal) modal.classList.add('iframe-active');
+          iframe.style.display = 'block';
+          iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=UUN5YigOo-FQCtXgU73wnfUQ&autoplay=1';
+          hideLoader();
+          showHud('📺 پەخشی ٢٤/٧ سپێدە (پەخشی بەردەوام)');
+        } else if (action === 'live') {
+          if (hls) { hls.destroy(); hls = null; }
+          if (video) { video.pause(); video.style.display = 'none'; }
+          if (modal) modal.classList.add('iframe-active');
+          iframe.style.display = 'block';
+          iframe.src = 'https://www.youtube-nocookie.com/embed/live_stream?channel=UCN5YigOo-FQCtXgU73wnfUQ&autoplay=1';
+          hideLoader();
+          showHud('📡 پەخشی ڕاستەوخۆی سپێدە (Live Stream)');
+        } else if (action === 'radio' || action === 'fm') {
+          openPlayer(51);
+          showHud('📻 پەخشی ڕادیۆی سپێدە FM (24/7 دەنگی ڕاستەوخۆ)');
+        } else if (action === 'hls') {
+          if (iframe) { iframe.style.display = 'none'; iframe.src = ''; }
+          if (modal) modal.classList.remove('iframe-active');
+          if (video) { video.style.display = 'block'; }
+          showLoader();
+          playHlsStream(video, 'https://speda1.site/upload/images/spedahd.m3u8');
+          showHud('📡 پەخشی ئاسمانی HD سپێدە');
+        }
+      } else if (currentChannel.id === 21) { // Srusht HD
         if (hls) { hls.destroy(); hls = null; }
         if (video) { video.pause(); video.style.display = 'none'; }
         if (modal) modal.classList.add('iframe-active');
-        if (iframe) {
-          iframe.style.display = 'block';
-          iframe.src = 'https://www.youtube-nocookie.com/embed/wLlCHPVNJtk?autoplay=1';
+        iframe.style.display = 'block';
+        if (action === 'continuous') {
+          iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=UUQ7Dttv29zH8frZOsAJ0DkQ&autoplay=1';
+          showHud('📺 پەخشی ٢٤/٧ سروشت (بەردەوام)');
+        } else if (action === 'live') {
+          iframe.src = 'https://www.youtube-nocookie.com/embed/live_stream?channel=UCQ7Dttv29zH8frZOsAJ0DkQ&autoplay=1';
+          showHud('📡 پەخشی ڕاستەوخۆی سروشت (Live)');
+        } else if (action === 'docs') {
+          iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=PL3-mft3VbV16WGBKtip0av2pvEsF3JnSP&autoplay=1';
+          showHud('🎥 دیکۆمێنتارییەکانی کەناڵی سروشت');
         }
         hideLoader();
-        showHud('📺 پەخشی یوتیوبی سپێدە');
+      } else if (currentChannel.id === 22) { // Speda Drama
+        if (hls) { hls.destroy(); hls = null; }
+        if (video) { video.pause(); video.style.display = 'none'; }
+        if (modal) modal.classList.add('iframe-active');
+        iframe.style.display = 'block';
+        if (action === 'continuous') {
+          iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=UULF-pDLj3AnFFm83rqcLcsA&autoplay=1';
+          showHud('📺 پەخشی بەردەوامی سپێدە دراما');
+        } else if (action === 'chra') {
+          iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=PLDW_8XiH-U8mtJCYr7GYoa9Q6DuIzCJWT&autoplay=1';
+          showHud('🎬 هەموو ئەڵقەکانی درامای چرا');
+        } else if (action === 'movies') {
+          iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=PLDW_8XiH-U8kUf2Wgrl8Lb2IZAP3ochGi&autoplay=1';
+          showHud('🍿 فیلمە دۆبلاژکراوەکانی سپێدە دراما');
+        }
+        hideLoader();
       }
+    }
+
+    function switchSpedaSource(sourceType) {
+      switchChannelSource(sourceType);
     }
 
     function openPlayer(id, shouldAutoFullscreen = false) {
@@ -2716,15 +2762,45 @@ https://github.com/farhadhosaen-hub/kurd-tv-radio/releases/download/v2.0.0/Kurd_
       const drawerAudioText = document.getElementById('drawerAudioOnlyText');
       if (drawerAudioText) drawerAudioText.innerText = 'ناچالاکە';
 
-      // کۆنترۆڵکردنی سپێدە
+      // کۆنترۆڵکردنی سەرچاوەی کەناڵە تایبەتەکان (سپێدە، سروشت، سپێدە دراما)
       const spedaBar = document.getElementById('spedaActionsBar');
       const spedaFallback = document.getElementById('spedaErrorFallback');
-      if (currentChannel.isSpeda) {
-        spedaBar.classList.add('active');
-        spedaFallback.style.display = 'flex';
+      if (currentChannel.id === 1) {
+        if (spedaBar) {
+          spedaBar.innerHTML = `
+            <span style="font-size: 13px; font-weight: bold; color: #38bdf8;">سپێدە:</span>
+            <button class="speda-btn" onclick="switchChannelSource('continuous')">📺 پەخشی ٢٤/٧</button>
+            <button class="speda-btn" onclick="switchChannelSource('live')">📡 ڕاستەوخۆ</button>
+            <button class="speda-btn" onclick="openPlayer(51)">📻 ڕادیۆ FM</button>
+          `;
+          spedaBar.classList.add('active');
+        }
+        if (spedaFallback) spedaFallback.style.display = 'flex';
+      } else if (currentChannel.id === 21) {
+        if (spedaBar) {
+          spedaBar.innerHTML = `
+            <span style="font-size: 13px; font-weight: bold; color: #38bdf8;">سروشت:</span>
+            <button class="speda-btn" onclick="switchChannelSource('continuous')">📺 پەخشی ٢٤/٧</button>
+            <button class="speda-btn" onclick="switchChannelSource('live')">📡 ڕاستەوخۆ</button>
+            <button class="speda-btn" onclick="switchChannelSource('docs')">🎥 دیكۆمێنتاری</button>
+          `;
+          spedaBar.classList.add('active');
+        }
+        if (spedaFallback) spedaFallback.style.display = 'none';
+      } else if (currentChannel.id === 22) {
+        if (spedaBar) {
+          spedaBar.innerHTML = `
+            <span style="font-size: 13px; font-weight: bold; color: #38bdf8;">سپێدە دراما:</span>
+            <button class="speda-btn" onclick="switchChannelSource('continuous')">📺 هەموو دراماکان</button>
+            <button class="speda-btn" onclick="switchChannelSource('chra')">🎬 درامای چرا</button>
+            <button class="speda-btn" onclick="switchChannelSource('movies')">🍿 فیلمی دۆبلاژ</button>
+          `;
+          spedaBar.classList.add('active');
+        }
+        if (spedaFallback) spedaFallback.style.display = 'none';
       } else {
-        spedaBar.classList.remove('active');
-        spedaFallback.style.display = 'none';
+        if (spedaBar) spedaBar.classList.remove('active');
+        if (spedaFallback) spedaFallback.style.display = 'none';
       }
 
 
